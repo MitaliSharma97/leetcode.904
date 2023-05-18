@@ -1,0 +1,44 @@
+class Solution:
+    def totalFruit(self, fruits: List[int]) -> int:
+        leng = len(fruits)
+        if leng < 2:
+            return leng
+        left = 1
+        right = 1
+        right_ind = None
+        see = None
+        for i in range(leng):
+            if fruits[i]!= fruits[0]:
+                right_ind = i
+                left_ind = i - 1
+                left = i
+                break
+        if right_ind == None:
+            return leng
+        ret = left+right
+        for i in range(right_ind + 1,leng):
+            curr = fruits[i]
+            if curr == fruits[right_ind]:
+                    right+=1
+                    ret = max(ret,left+right)
+                    right_ind = i
+                    continue
+            if curr == fruits[left_ind]:
+                left+=1
+                ret = max(ret,left+right)
+                left_ind = i
+                continue
+            left_ind = max(right_ind,left_ind)
+            right_ind = i
+            left = 0
+            count = left_ind
+            while fruits[count] == fruits[left_ind] and count>= 0:
+                count-=1
+                left+=1
+            right = 1
+            ret = max(right+left,ret)
+        return ret
+            
+
+            
+
